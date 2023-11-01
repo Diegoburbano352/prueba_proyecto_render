@@ -2,42 +2,47 @@ const db = require('../models');
 const Product= db.product;
 const Op = db.Sequelize.Op;
 
-//crear y guardar el producto, con la validacion de que solo el administrado puede crear nuevos productos
+// Crear y guardar el producto, con la validación de que solo el administrador puede crear nuevos productos
 exports.create = (req, res) => {
-    let usuariologeado = req.user.logeado
-    if (usuariologeado.rol==="usuario"|usuariologeado.rol==="empleado"){
+    let usuariologeado = req.user.logeado;
+
+    if (usuariologeado.rol === "usuario" || usuariologeado.rol === "empleado") {
         res.status(403).send({
             message: 'No tiene el rol necesario'
-        });            
-    }else {
+        });
+    } else {
         if (!req.body.nombre_producto) {
             res.status(403).send({
-                message: 'el contenido del nombre del producto no puede estar vacio'
+                message: 'El contenido del nombre del producto no puede estar vacío'
             });
             return;
         }
-        //Creacion del producto
+
+        // Creación del producto
         const product = {
             nombre_producto: req.body.nombre_producto,
             marca: req.body.marca,
             precio: req.body.precio,
             stock: req.body.stock,
-            disponibilidad: req.body.disponibilidad ? req.body.disponibilidad:true
+            disponibilidad: req.body.disponibilidad ? req.body.disponibilidad : true
         };
-        
-    //Creacion del producto en la base de datos
+
+        // Creación del producto en la base de datos
         Product.create(product)
             .then(data => {
-                res.send(data);
+                res.status(201).send({
+                    message: 'Producto creado con éxito',
+                    data: data
+                });
             })
             .catch(err => {
                 res.status(500).send({
-                    message: err.message || 'Error al crear el producto en la bd'
+                    message: err.message || 'Error al crear el producto en la base de datos'
                 });
             });
-    } 
-    
+    }
 };
+
 
 //consulta del producto por nombre o listar todos los productos
 exports.findAll = (req, res) => {
