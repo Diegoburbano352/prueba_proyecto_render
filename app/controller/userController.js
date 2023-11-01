@@ -79,7 +79,7 @@ const { email, password } = req.body;
        console.log(jwt.decode(token));
 
        //send user data
-       return res.status(201).send(token);
+       return res.status(201).send({token:token, user:user});
      } else {
        return res.status(401).send("Contraseña incorrecta");
      }
