@@ -61,7 +61,6 @@ exports.create = (req, res) => {
     });
 };
 
-
 // Consulta de reservas del usuario autenticado
 exports.findAll = (req, res) => {
     const userId = req.user.logeado.id; // ID del usuario autenticado desde el token
@@ -75,14 +74,18 @@ exports.findAll = (req, res) => {
             return res.status(404).send({ message: 'No hay reservaciones disponibles para este usuario.' });
         } else {
             const modifiedData = data.map(item => {
+                // Formatear las fechas para mostrar solo la fecha sin la hora
+                const fechaEntrada = item.fecha_entrada.toISOString().split('T')[0];
+                const fechaSalida = item.fecha_salida.toISOString().split('T')[0];
+
                 return {
                     id: item.id,
                     tipo_reserva: item.tipo_reserva,
-                    fecha_entrada: item.fecha_entrada,
-                    fecha_salida: item.fecha_salida,
+                    fecha_entrada: fechaEntrada,
+                    fecha_salida: fechaSalida,
                     hora_entrada: item.hora_entrada,
                     hora_salida: item.hora_salida,
-                    precio: `Q${item.precio}`,
+                    precio: 'Q${item.precio}',
                     habitacion: item.room.tipo_habitacion,
                 };
             });
@@ -95,6 +98,7 @@ exports.findAll = (req, res) => {
         });
     });
 };
+
 
 //Seleccionar la reservación por ID para el usuario autenticado
 exports.findOne = (req, res) => {
