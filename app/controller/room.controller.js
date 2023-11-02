@@ -22,7 +22,7 @@ exports.create = (req, res) => {
             capacidad: req.body.capacidad,
             comodidades: req.body.comodidades,
             tarifa: req.body.tarifa,
-            estado_disponidilidad: req.body.estado_disponidilidad ? req.body.estado_disponidilidad :true
+            estado_disponibilidad: req.body.estado_disponibilidad ? req.body.estado_disponibilidad :true
         };
         Room.create(habitacion)
             .then(data => {
