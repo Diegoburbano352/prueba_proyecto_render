@@ -96,28 +96,32 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Seleccionar la reservación por ID para el usuario autenticado
+//Seleccionar la reservación por ID para el usuario autenticado
 exports.findOne = (req, res) => {
     const userId = req.user.logeado.id;
     const id = req.params.id;
 
     Reservation.findOne({
-        where: { id, userId } // Se busca la reserva por ID asociada al usuario autenticado
+        where: { id, userId } //Se busca la reserva por ID asociada al usuario autenticado
     })
     .then(data => {
         if (!data) {
             res.status(404).send({
-                message: `No se encuentra la reservación con el ID=${id} asociada a este usuario.`
+                message: 'No se encuentra la reservación con el ID=$ {id} asociada a este usuario.'
             });
         } else {
+            // Formatear las fechas para mostrar solo la fecha sin la hora
+            const formattedFechaEntrada = data.fecha_entrada.toISOString().split('T')[0];
+            const formattedFechaSalida = data.fecha_salida.toISOString().split('T')[0];
+
             const modifiedData = {
                 id: data.id,
                 tipo_reserva: data.tipo_reserva,
-                fecha_entrada: data.fecha_entrada,
-                fecha_salida: data.fecha_salida,
+                fecha_entrada: formattedFechaEntrada,
+                fecha_salida: formattedFechaSalida,
                 hora_entrada: data.hora_entrada,
                 hora_salida: data.hora_salida,
-                precio: `Q${data.precio}`,
+                precio: 'Q${data.precio}',
                 habitacion: data.room.tipo_habitacion,
             };
             res.send(modifiedData);
@@ -125,7 +129,7 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
         res.status(500).send({
-            message: "Error al obtener la reservación con ID=" + id + " para el usuario."
+            message: "Error al obtener la reservación con ID=" +id+ "para el usuario."
         });
     });
 };
