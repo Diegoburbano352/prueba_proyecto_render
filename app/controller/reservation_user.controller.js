@@ -45,7 +45,8 @@ exports.create = (req, res) => {
                 tipo_reserva,
                 fecha_entrada,
                 fecha_salida,
-                hora: req.body.hora, // Asegúrate de que "hora" sea proporcionada en el cuerpo de la solicitud
+                hora_entrada: req.body.hora_entrada, // Asegúrate de que "hora" sea proporcionada en el cuerpo de la solicitud
+                hora_salida: req.body.hora_salida,
                 precio: req.body.precio, // Asegúrate de que "precio" sea proporcionado en el cuerpo de la solicitud
                 roomId,
                 userId: idUsuario
