@@ -85,7 +85,7 @@ exports.findAll = (req, res) => {
                     fecha_salida: fechaSalida,
                     hora_entrada: item.hora_entrada,
                     hora_salida: item.hora_salida,
-                    precio: 'Q${item.precio}',
+                    precio: `Q${item.precio}`,
                     habitacion: item.room.tipo_habitacion,
                 };
             });
@@ -125,7 +125,7 @@ exports.findOne = (req, res) => {
                 fecha_salida: formattedFechaSalida,
                 hora_entrada: data.hora_entrada,
                 hora_salida: data.hora_salida,
-                precio: 'Q${data.precio}',
+                precio: `Q${data.precio}`,
                 habitacion: data.room.tipo_habitacion,
             };
             res.send(modifiedData);
