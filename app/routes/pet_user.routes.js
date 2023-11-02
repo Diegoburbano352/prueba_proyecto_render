@@ -18,11 +18,12 @@ module.exports = app => {
     // Consultar una mascota por su ID
     router.get('/:id',aut.ensureAuth,PetUser.findOne);
 
-    // Actualizar una mascota por su ID
-    router.put('/:id',aut.ensureAuth,PetUser.update);
+    // Actualizar una mascota
+router.put('/update', aut.ensureAuth, PetUser.update);
 
-    // Eliminar una mascota por su ID
-    router.delete('/:id',aut.ensureAuth,PetUser.delete);
+// Eliminar una mascota
+router.delete('/delete', aut.ensureAuth, PetUser.delete);
+
 
     app.use('/api/pet_user', router);
 };
