@@ -86,13 +86,13 @@ exports.findOne = (req, res) => {
         });
 };
 
-// Actualizar la mascota (asegurarse de que pertenezca al usuario autenticado)
+// Actualizar la mascota por ID (asegurarse de que pertenezca al usuario autenticado)
 exports.update = (req, res) => {
-    let usuariologeado = req.user.logeado.id;
-    console.log('Usuario logeado:', usuariologeado);
+    const idMascota = req.params.id;
+    const idUsuario = req.user.logeado.id;
 
     Pet.update(req.body, {
-        where: { userId: usuariologeado }
+        where: { id: idMascota, userId: idUsuario }
     })
         .then(num => {
             if (num[0] === 1) {
@@ -101,25 +101,25 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.status(404).send({
-                    message: `No se encontró la mascota o no pertenece al usuario`
+                    message: `No se encontró la mascota con el id: ${idMascota}, o no pertenece al usuario`
                 });
             }
         })
         .catch(err => {
-            console.log('Error al actualizar la mascota:', err);
+            console.log('Error al actualizar la mascota por ID:', err);
             res.status(500).send({
-                message: 'Error al actualizar la mascota'
+                message: "Error al actualizar la mascota con id=" + idMascota
             });
         });
 };
 
-// Eliminar la mascota (asegurarse de que pertenezca al usuario autenticado)
+// Eliminar la mascota por ID (asegurarse de que pertenezca al usuario autenticado)
 exports.delete = (req, res) => {
-    let usuariologeado = req.user.logeado;
-    console.log('Usuario logeado:', usuariologeado);
+    const idMascota = req.params.id;
+    const idUsuario = req.user.logeado.id;
 
     Pet.destroy({
-        where: { userId: usuariologeado.id }
+        where: { id: idMascota, userId: idUsuario }
     })
         .then(num => {
             if (num === 1) {
@@ -128,15 +128,14 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.status(404).send({
-                    message: 'La mascota no existe o no pertenece al usuario'
+                    message: `El id de la mascota: ${idMascota} no existe o no pertenece al usuario`
                 });
             }
         })
         .catch(err => {
-            console.log('Error al eliminar la mascota:', err);
+            console.log('Error al eliminar la mascota por ID:', err);
             res.status(500).send({
-                message: 'No se pudo eliminar la mascota'
+                message: "No se pudo eliminar la mascota con el id=" + idMascota
             });
         });
 };
-
