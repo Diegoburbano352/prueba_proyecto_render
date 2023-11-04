@@ -98,14 +98,14 @@ exports.findOne = (req, res) => {
 };
 
 
-// Actualizar el producto por el id, vista protegida por rol, rol usuario no puede ingresar solo el rol administrador y el rol de empleado 
+// Actualizar el producto por el ID, vista protegida por rol, el rol de usuario y empleado no pueden ingresar, solo el rol de administrador
 exports.update = (req, res) => {
-    let usuariologeado = req.user.logeado
-    if(usuariologeado.rol==="usuario"){
+    let usuariologeado = req.user.logeado;
+    if (usuariologeado.rol === "usuario" || usuariologeado.rol === "empleado") {
         res.status(403).send({
             message: 'No tiene el rol necesario'
-        });  
-    }else{
+        });
+    } else {
         const id = req.params.id;
         Product.update(req.body, {
             where: { id: id }
@@ -113,31 +113,30 @@ exports.update = (req, res) => {
             .then(num => {
                 if (num == 1) {
                     res.send({
-                        message: 'producto actualizado correctamente'
+                        message: 'Producto actualizado correctamente'
                     });
                 } else {
-                    res.send({
-                        message: `'No se encontro el producto con el id: ${id}, o no existe'`
+                    res.status(404).send({
+                        message: `No se encontró el producto con el ID: ${id}, o no existe`
                     });
-                };
+                }
             })
             .catch(err => {
                 res.status(500).send({
-                    message: "Error al actualizar el producto con id=" + id
+                    message: "Error al actualizar el producto con ID=" + id
                 });
             });
     }
 };
 
-
-// Eliminar el producto por el id, vista protegida por rol, rol usuario y empleado no puede ingresar solo el rol administrador 
+// Eliminar el producto por ID, vista protegida por rol, rol usuario y empleado no puede ingresar, solo el rol administrador
 exports.delete = (req, res) => {
-    let usuariologeado = req.user.logeado
-    if(usuariologeado.rol==="usuario","empleado"){
+    let usuariologeado = req.user.logeado;
+    if (usuariologeado.rol === "usuario" || usuariologeado.rol === "empleado") {
         res.status(403).send({
             message: 'No tiene el rol necesario'
-        });  
-    }else {
+        });
+    } else {
         const id = req.params.id;
         Product.destroy({
             where: { id: id }
@@ -145,17 +144,17 @@ exports.delete = (req, res) => {
             .then(num => {
                 if (num == 1) {
                     res.send({
-                        message: ' Se elimino el producto correctamente'
+                        message: 'Se eliminó el producto correctamente'
                     });
                 } else {
-                    res.send({
-                        message: `'el  id del producto : ${id} no existe'`
+                    res.status(404).send({
+                        message: `El ID del producto: ${id} no existe`
                     });
-                };
+                }
             })
             .catch(err => {
                 res.status(500).send({
-                    message: "No se logro eliminar el producto con id=" + id
+                    message: "No se logró eliminar el producto con ID=" + id
                 });
             });
     }
