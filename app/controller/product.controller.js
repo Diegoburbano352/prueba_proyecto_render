@@ -98,17 +98,18 @@ exports.findOne = (req, res) => {
 };
 
 
-// Actualizar el producto por el ID, vista protegida por rol, el rol de usuario y empleado no pueden ingresar, solo el rol de administrador
+/// Actualizar el producto por el ID, vista protegida por rol, el rol de usuario y empleado no pueden ingresar, solo el rol de administrador
 exports.update = (req, res) => {
-    let usuariologeado = req.user.logeado;
+    const idProducto = req.params.id;
+    const usuariologeado = req.user.logeado;
+
     if (usuariologeado.rol === "usuario" || usuariologeado.rol === "empleado") {
         res.status(403).send({
             message: 'No tiene el rol necesario'
         });
     } else {
-        const id = req.params.id;
         Product.update(req.body, {
-            where: { id: id }
+            where: { id: idProducto }
         })
             .then(num => {
                 if (num == 1) {
@@ -117,17 +118,18 @@ exports.update = (req, res) => {
                     });
                 } else {
                     res.status(404).send({
-                        message: `No se encontró el producto con el ID: ${id}, o no existe`
+                        message: `No se encontró el producto con el ID: ${idProducto}, o no existe`
                     });
                 }
             })
             .catch(err => {
                 res.status(500).send({
-                    message: "Error al actualizar el producto con ID=" + id
+                    message: "Error al actualizar el producto con ID=" + idProducto
                 });
             });
     }
 };
+
 
 // Eliminar el producto por ID, vista protegida por rol, rol usuario y empleado no puede ingresar, solo el rol administrador
 exports.delete = (req, res) => {
