@@ -56,7 +56,7 @@ exports.findAll = (req, res) => {
                 const updatedData = data.map(habitacion => {
                     return {
                         ...habitacion.dataValues,
-                        estado_disponibilidad: habitacion.estado_disponibilidad ? "disponible" : "no disponible",
+                        estado_disponibilidad: habitacion.estado_disponibilidad,
                         tarifa: habitacion.tarifa
                     };
                 });
@@ -78,7 +78,7 @@ exports.findOne = (req, res) => {
             if (data) {
                 const updatedData = {
                     ...data.dataValues,
-                    estado_disponibilidad: data.estado_disponibilidad ? "disponible" : "no disponible",
+                    estado_disponibilidad: data.estado_disponibilidad ,
                     tarifa: data.tarifa
                 };
                 res.send(updatedData);
