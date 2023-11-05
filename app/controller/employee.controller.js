@@ -27,7 +27,7 @@ exports.create = (req, res) => {
             email: req.body.email,
             puesto: req.body.puesto,
             fecha_contratacion: req.body.fecha_contratacion,
-            genero: req.body.genero ? req.body.genero :true
+            Genero: req.body.Genero ? req.body.Genero :true
         };
     
     // Crea el empleado
