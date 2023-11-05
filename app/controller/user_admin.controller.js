@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 
 // Consultar todos los usuarios
 exports.findAll = (req, res) => {
-    const idProducto = req.params.id;
+    //const idProducto = req.params.id;
     const usuariologeado = req.user.logeado;
 
     if (usuariologeado.rol === "usuario" || usuariologeado.rol === "empleado") {
