@@ -64,7 +64,7 @@ exports.findAll = (req, res) => {
                     marca: product.marca,
                     precio: product.precio, // Formatea el precio a Qxx.xx
                     stock: product.stock,
-                    disponibilidad: product.disponibilidad ? 'Disponible' : 'Agotado'
+                    disponibilidad: product.disponibilidad
                 }));
                 res.send(transformedData);
             }
