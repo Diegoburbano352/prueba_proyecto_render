@@ -27,7 +27,7 @@ module.exports = (sequelize, Sequelize) => {
       fecha_contratacion: {
         type: Sequelize.DATE
       },
-      genero: {
+      Genero: {
         type: Sequelize.BOOLEAN
       }
     });
