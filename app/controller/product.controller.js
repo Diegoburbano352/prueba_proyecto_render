@@ -62,7 +62,7 @@ exports.findAll = (req, res) => {
                     id: product.id,
                     nombre_producto: product.nombre_producto,
                     marca: product.marca,
-                    precio: `Q${parseFloat(product.precio).toFixed(2)}`, // Formatea el precio a Qxx.xx
+                    precio: product.precio, // Formatea el precio a Qxx.xx
                     stock: product.stock,
                     disponibilidad: product.disponibilidad ? 'Disponible' : 'Agotado'
                 }));
