@@ -98,7 +98,7 @@ exports.findOne = (req, res) => {
 };
 
 
-/// Actualizar el producto por el ID, vista protegida por rol, el rol de usuario y empleado no pueden ingresar, solo el rol de administrador
+// Actualizar el producto por el ID, vista protegida por rol, el rol de usuario y empleado no pueden ingresar, solo el rol de administrador
 exports.update = (req, res) => {
     const idProducto = req.params.id;
     const usuariologeado = req.user.logeado;

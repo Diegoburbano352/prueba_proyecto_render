@@ -13,7 +13,7 @@ module.exports = app => {
     router.get("/:id", Product.findOne);
   
     // Actualizar un producto por su id
-    router.put("/:id",aut.ensureAuth ,Product.update);
+    router.put("update/:id",aut.ensureAuth ,Product.update);
   
     // Eliminar un producto por su id
     router.delete("/:id",aut.ensureAuth, Product.delete);
