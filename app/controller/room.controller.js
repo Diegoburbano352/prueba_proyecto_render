@@ -104,7 +104,7 @@ exports.findByName = (req, res) => {
             const updatedData = data.map(habitacion => {
                 return {
                     ...habitacion.dataValues,
-                    estado_disponibilidad: habitacion.estado_disponibilidad,
+                    estado_disponibilidad: habitacion.estado_disponibilidad ? "disponible" : "no disponible",
                     tarifa: habitacion.tarifa
                 };
             });
