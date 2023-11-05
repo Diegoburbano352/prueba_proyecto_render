@@ -1,5 +1,5 @@
 const db = require('../models');
-const Client = db.Clientuser; // Asumiendo que el modelo se llama Clientuser
+const Client = db.client; // Asumiendo que el modelo se llama Clientuser
 
 // Crear y guardar cliente
 exports.create = (req, res) => {
