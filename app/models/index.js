@@ -48,6 +48,10 @@ db.reservation.belongsTo(db.room, { foreignKey: 'roomId' });
 db.users.hasMany(db.pet, { foreignKey: 'userId' });
 db.pet.belongsTo(db.users, { foreignKey: 'userId' });
 
+// Establece las asociaciones en Client con la de User
+db.users.hasMany(db.client, { foreignKey: 'userId' });
+db.client.belongsTo(db.users, { foreignKey: 'userId' });
+
 // Establece las asociaciones en Reservation con la tabla de user.
 db.users.hasMany(db.reservation, { foreignKey: 'userId' });
 db.reservation.belongsTo(db.users, { foreignKey: 'userId' });
@@ -55,13 +59,9 @@ db.reservation.belongsTo(db.users, { foreignKey: 'userId' });
 // Establece las asociaciones del carrito
 db.users.hasMany(db.cart, { foreignKey: 'userId' });
 db.product.hasMany(db.cart, { foreignKey: 'productId' });
-db.reservation.hasMany(db.cart, { foreignKey: 'reservationId' });
-db.service.hasMany(db.cart, { foreignKey: 'serviceId' });
 
 db.cart.belongsTo(db.users, { foreignKey: 'userId' });
 db.cart.belongsTo(db.product, { foreignKey: 'productId' });
-db.cart.belongsTo(db.reservation, { foreignKey: 'reservationId' });
-db.cart.belongsTo(db.service, { foreignKey: 'serviceId' });
 
 // Establece las asociaciones de la factura
 db.users.hasMany(db.factura, { foreignKey: 'userId' });

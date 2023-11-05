@@ -19,20 +19,6 @@ const Service = require('./services.models');
           key: 'id',
         },
       },
-      reservationId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'reservations',
-          key: 'id',
-        },
-      },
-      serviceId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'services',
-          key: 'id',
-        },
-      },
       cantidad: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -55,16 +41,6 @@ const Service = require('./services.models');
         const Product = await sequelize.models.product.findByPk(cartItem.productId);
         if ( Product) {
           unitPrice = Product.precio;
-        }
-      } else if (cartItem.reservationId) {
-        const Reservation = await sequelize.models.reservation.findByPk(cartItem.reservationId);
-        if (Reservation) {
-          unitPrice = Reservation.precio;
-        }
-      } else if (cartItem.serviceId) {
-        const Service = await sequelize.models.services.findByPk(cartItem.serviceId);
-        if (Service) {
-          unitPrice = Service.precio;
         }
       }
   

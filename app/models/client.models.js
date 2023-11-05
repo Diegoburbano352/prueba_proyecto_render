@@ -20,7 +20,15 @@ module.exports = (sequelize, Sequelize) => {
       },
       estado: {
         type: Sequelize.BOOLEAN
-      }
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'users', 
+            key: 'id',      
+        },
+    }
     });
   
     return Client;

@@ -1,34 +1,46 @@
 const db = require('../models');
 const Client = db.client; // Asumiendo que el modelo se llama Clientuser
 
-// Crear y guardar cliente
+// Crear y guardar cliente (asumiendo que el usuario autenticado es el propietario del cliente)
 exports.create = (req, res) => {
+    let usuariologeado = req.user.logeado;
+    console.log('Usuario logeado:', usuariologeado);
+
     if (!req.body.nombre) {
-        return res.status(400).send({
-            message: 'El campo del nombre no puede estar vacío'
+        res.status(400).send({
+            message: 'Complete el campo del nombre ya que no puede estar vacío'
         });
+        return;
     }
+    
+    // Obtener el ID del usuario autenticado desde el token JWT
+    const idUsuario = req.user.logeado.id;
+    console.log(req.user);
 
     const client = {
         nombre: req.body.nombre,
-        apellido: req.body.apellido,
-        direccion: req.body.direccion,
-        nit: req.body.nit,
-        telefono: req.body.telefono,
-        email: req.body.email,
-        estado: req.body.estado || true
+        apellido: req.body.apellido || null,
+        direccion: req.body.direccion || null,
+        nit: req.body.nit || null,
+        telefono: req.body.telefono || null,
+        email: req.body.email || null,
+        estado: req.body.estado || true,
+        userId: idUsuario  // Asumiendo que la relación con el usuario está basada en userId
     };
 
+    // Guardar el cliente en la base de datos
     Client.create(client)
         .then(data => {
             res.status(201).send(data);
         })
         .catch(err => {
+            console.log('Error al crear cliente:', err);
             res.status(500).send({
                 message: err.message || 'Error al crear el cliente en la base de datos'
             });
         });
 };
+
 
 // Obtener el cliente asociado al usuario autenticado
 exports.getMyClient = (req, res) => {

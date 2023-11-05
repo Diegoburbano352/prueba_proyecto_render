@@ -14,7 +14,7 @@ var corsOptions = {
 };
 
 
-db.sequelize.sync({ force: false}).then(() => {
+db.sequelize.sync({ force: true}).then(() => {
     console.log("La base de datos ha sido reiniciada (force: true)");
 });
 
