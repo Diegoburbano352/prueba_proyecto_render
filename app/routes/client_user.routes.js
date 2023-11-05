@@ -15,7 +15,7 @@ module.exports = app => {
     router.get('/', aut.ensureAuth, ClientUserController.getMyClient); 
 
     // Actualizar el cliente por su ID
-    router.put('/:id:', aut.ensureAuth, ClientUserController.updateMyClient); 
+    router.put('/:id', aut.ensureAuth, ClientUserController.updateMyClient); 
 
     // Eliminar el cliente asociado al usuario
     router.delete('/:id', aut.ensureAuth, ClientUserController.deleteMyClient); 
