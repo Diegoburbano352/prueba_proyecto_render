@@ -104,8 +104,8 @@ exports.findByName = (req, res) => {
             const updatedData = data.map(habitacion => {
                 return {
                     ...habitacion.dataValues,
-                    estado_disponibilidad: habitacion.estado_disponibilidad ? "disponible" : "no disponible",
-                    tarifa: `Q${habitacion.tarifa}`
+                    estado_disponibilidad: habitacion.estado_disponibilidad,
+                    tarifa: habitacion.tarifa
                 };
             });
             res.send(updatedData);
