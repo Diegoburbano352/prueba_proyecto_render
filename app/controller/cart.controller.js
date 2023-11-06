@@ -117,7 +117,7 @@ exports.calculateTotal = async (req, res) => {
         {
           model: Product,
           as: 'product',
-          attributes: ['precio'],
+          attributes: ['precio','nombre_producto'],
         }
       ],
     });
