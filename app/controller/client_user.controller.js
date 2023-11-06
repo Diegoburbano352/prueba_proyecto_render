@@ -1,7 +1,7 @@
 const db = require('../models');
-const Client = db.client; // Asumiendo que el modelo se llama Clientuser
+const Client = db.client; 
 
-// Crear y guardar cliente (asumiendo que el usuario autenticado es el propietario del cliente)
+// Crear y guardar cliente 
 exports.create = (req, res) => {
     let usuariologeado = req.user.logeado;
     console.log('Usuario logeado:', usuariologeado);

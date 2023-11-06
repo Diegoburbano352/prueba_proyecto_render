@@ -1,6 +1,5 @@
 module.exports = app => {
     const ClientUserController = require('../controller/client_user.controller.js');
-    const Client = require('../controller/client_user.controller.js');
     var router = require('express').Router();
     const aut = require('../middlewares/autenticacion.js');
     const userAuth = require('../middlewares/userAuth.js');
