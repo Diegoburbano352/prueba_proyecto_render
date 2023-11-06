@@ -1,5 +1,6 @@
 const db = require('../models');
 const Client = db.client; 
+const Op = db.Sequelize.Op;
 
 // Crear y guardar cliente 
 exports.create = (req, res) => {
@@ -51,7 +52,7 @@ exports.getMyClient = (req, res) => {
         });            
     }else { 
         const userId = req.user.logeado.id; 
-    Clientuser.findOne({ where: { userId: userId } })
+    Client.findOne({ where: { userId: userId } })
         .then(client => {
             if (client) {
                 res.send(client);
@@ -80,7 +81,7 @@ exports.updateMyClient = (req, res) => {
         });            
     }else { 
         const userId = req.user.logeado.id; 
-        Clientuser.update(req.body, { where: { userId: userId } })
+        Client.update(req.body, { where: { userId: userId } })
             .then(num => {
                 if (num === 1) {
                     res.send({ message: 'Cliente actualizado correctamente' });
@@ -105,7 +106,7 @@ exports.deleteMyClient = (req, res) => {
         });            
     }else { 
         const userId = req.user.logeado.id; 
-        Clientuser.destroy({ where: { userId: userId } })
+        Client.destroy({ where: { userId: userId } })
             .then(num => {
                 if (num === 1) {
                     res.send({ message: 'Se eliminó el cliente asociado a este usuario correctamente' });
