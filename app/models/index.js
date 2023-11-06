@@ -32,13 +32,12 @@ db.client = require("./client.models.js")(sequelize, Sequelize);
 db.pet = require("./pet.models.js")(sequelize, Sequelize);
 db.reservation = require("./reservation.models.js")(sequelize, Sequelize);
 db.room = require("./room.models.js")(sequelize, Sequelize);
-db.service = require("./services.models.js")(sequelize, Sequelize);
 db.employee = require("./employee.models.js")(sequelize, Sequelize);
 db.product = require("./product.models.js")(sequelize, Sequelize);
 db.users = require("./userModel.js")(sequelize, Sequelize); 
 db.cart = require("./cart.models.js")(sequelize,Sequelize);
 db.factura = require("./invoice.models.js")(sequelize,Sequelize);
-db.facturadetalle = require("./invoice_detail.models.js")(sequelize,Sequelize);
+
 
 // Establece las asociaciones en reservation con la de room
 db.room.hasMany(db.reservation, { foreignKey: 'roomId' });
