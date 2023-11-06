@@ -44,8 +44,13 @@ exports.create = (req, res) => {
 
 // Obtener el cliente asociado al usuario autenticado
 exports.getMyClient = (req, res) => {
-    const userId = req.user.logeado.id; 
-
+    let usuariologeado = req.user.logeado
+    if (usuariologeado.rol==="usuario"){
+        res.status(403).send({
+            message: 'No tiene el rol necesario'
+        });            
+    }else { 
+        const userId = req.user.logeado.id; 
     Clientuser.findOne({ where: { userId: userId } })
         .then(client => {
             if (client) {
@@ -62,40 +67,55 @@ exports.getMyClient = (req, res) => {
                 message: err.message || 'Error al obtener el cliente del usuario'
             });
         });
+
+        }
 };
 
 // Actualizar el cliente asociado al usuario autenticado
 exports.updateMyClient = (req, res) => {
-    const userId = req.user.logeado.id; 
+    let usuariologeado = req.user.logeado
+    if (usuariologeado.rol==="usuario"){
+        res.status(403).send({
+            message: 'No tiene el rol necesario'
+        });            
+    }else { 
+        const userId = req.user.logeado.id; 
+        Clientuser.update(req.body, { where: { userId: userId } })
+            .then(num => {
+                if (num === 1) {
+                    res.send({ message: 'Cliente actualizado correctamente' });
+                } else {
+                    res.status(404).send({ message: 'No se encontró el cliente asociado a este usuario' });
+                }
+            })
+            .catch(err => {
+                console.log('Error al actualizar el cliente del usuario:', err);
+                res.status(500).send({ message: err.message || 'Error al actualizar el cliente del usuario' });
+            });
 
-    Clientuser.update(req.body, { where: { userId: userId } })
-        .then(num => {
-            if (num === 1) {
-                res.send({ message: 'Cliente actualizado correctamente' });
-            } else {
-                res.status(404).send({ message: 'No se encontró el cliente asociado a este usuario' });
-            }
-        })
-        .catch(err => {
-            console.log('Error al actualizar el cliente del usuario:', err);
-            res.status(500).send({ message: err.message || 'Error al actualizar el cliente del usuario' });
-        });
+    }
 };
 
 // Eliminar el cliente asociado al usuario autenticado
 exports.deleteMyClient = (req, res) => {
-    const userId = req.user.logeado.id; 
-
-    Clientuser.destroy({ where: { userId: userId } })
-        .then(num => {
-            if (num === 1) {
-                res.send({ message: 'Se eliminó el cliente asociado a este usuario correctamente' });
-            } else {
-                res.status(404).send({ message: 'No se encontró el cliente asociado a este usuario' });
-            }
-        })
-        .catch(err => {
-            console.log('Error al eliminar el cliente del usuario:', err);
-            res.status(500).send({ message: err.message || 'Error al eliminar el cliente del usuario' });
-        });
+    let usuariologeado = req.user.logeado
+    if (usuariologeado.rol==="usuario"){
+        res.status(403).send({
+            message: 'No tiene el rol necesario'
+        });            
+    }else { 
+        const userId = req.user.logeado.id; 
+        Clientuser.destroy({ where: { userId: userId } })
+            .then(num => {
+                if (num === 1) {
+                    res.send({ message: 'Se eliminó el cliente asociado a este usuario correctamente' });
+                } else {
+                    res.status(404).send({ message: 'No se encontró el cliente asociado a este usuario' });
+                }
+            })
+            .catch(err => {
+                console.log('Error al eliminar el cliente del usuario:', err);
+                res.status(500).send({ message: err.message || 'Error al eliminar el cliente del usuario' });
+            });
+    }
 };
