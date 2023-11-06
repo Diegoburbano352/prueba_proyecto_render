@@ -1,11 +1,11 @@
 const db = require('../models');
 const Factura = db.factura;
-const FacturaDetalle = db.facturadetalle;
+
 
 // Crear factura a partir de la vista del carrito
 exports.createFacturaFromCartView = async (req, res) => {
     try {
-      let cartItems = req.body;
+      let cartItems = req.body.cartItems;
       console.log(req.body);
       console.log(cartItems);
       if (!Array.isArray(cartItems)) {
