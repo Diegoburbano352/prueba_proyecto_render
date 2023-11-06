@@ -1,5 +1,4 @@
 module.exports = (sequelize, Sequelize) => {
-const FacturaDetalle = require('./invoice_detail.models'); 
 const Factura = sequelize.define('factura', {
     numeroFactura: {
       type: Sequelize.INTEGER,
