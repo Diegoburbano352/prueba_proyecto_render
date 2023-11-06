@@ -36,6 +36,7 @@ require("./app/routes/cart.routes")(app);
 require("./app/routes/invoice.routes")(app);
 require("./app/routes/client_user.routes")(app);
 require("./app/routes/reservation_user.routes")(app);
+require("./app/routes/user_admin.routes")(app);
 app.use('/api/users', userRoutes)
 
 
