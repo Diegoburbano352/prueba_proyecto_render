@@ -46,7 +46,7 @@ exports.create = (req, res) => {
 // Obtener el cliente asociado al usuario autenticado
 exports.getMyClient = (req, res) => {
     let usuariologeado = req.user.logeado
-    if (usuariologeado.rol==="usuario"){
+    if (usuariologeado.rol===""){
         res.status(403).send({
             message: 'No tiene el rol necesario'
         });            
@@ -75,12 +75,13 @@ exports.getMyClient = (req, res) => {
 // Actualizar el cliente asociado al usuario autenticado
 exports.updateMyClient = (req, res) => {
     let usuariologeado = req.user.logeado
-    if (usuariologeado.rol==="usuario"){
-        res.status(403).send({
-            message: 'No tiene el rol necesario'
-        });            
-    }else { 
+    // if (usuariologeado.rol===""){
+    //     res.status(403).send({
+    //         message: 'No tiene el rol necesario'
+    //     });            
+    // }else { 
         const userId = req.user.logeado.id; 
+        console.log(userId)
         Client.update(req.body, { where: { userId: userId } })
             .then(num => {
                 if (num === 1) {
@@ -94,7 +95,7 @@ exports.updateMyClient = (req, res) => {
                 res.status(500).send({ message: err.message || 'Error al actualizar el cliente del usuario' });
             });
 
-    }
+    // }
 };
 
 // Eliminar el cliente asociado al usuario autenticado
