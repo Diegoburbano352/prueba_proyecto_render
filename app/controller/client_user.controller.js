@@ -84,7 +84,7 @@ exports.updateMyClient = (req, res) => {
         console.log(userId)
         Client.update(req.body, { where: { userId: userId } })
             .then(num => {
-                if (num === 1) {
+                if (num == 1) {
                     res.send({ message: 'Cliente actualizado correctamente' });
                 } else {
                     res.status(404).send({ message: 'No se encontró el cliente asociado a este usuario' });
