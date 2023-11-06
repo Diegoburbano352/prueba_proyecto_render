@@ -27,10 +27,6 @@ const Service = require('./services.models');
       precio: {
         type: Sequelize.DECIMAL(10, 2),
         defaultValue: 0,
-      },
-      total: {
-        type: Sequelize.DECIMAL(10, 2),
-        defaultValue: 0,
       }
     });
   

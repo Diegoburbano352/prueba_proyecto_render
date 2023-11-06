@@ -9,7 +9,7 @@ module.exports = exports;
 // Agregar elementos al carrito
 exports.addToCart = async (req, res) => {
   try {
-    const { productId, reservationId, serviceId, cantidad, precio, total} = req.body; // Modifica quantity a cantidad
+    const { productId,cantidad, precio} = req.body; // Modifica quantity a cantidad
     const userId = req.user.logeado.id;
 
     if (cantidad && userId) { // Actualiza quantity a cantidad
@@ -22,20 +22,6 @@ exports.addToCart = async (req, res) => {
         } else {
           return res.status(404).send('Producto no encontrado');
         }
-      } else if (reservationId) {
-        const reservation = await Reservation.findByPk(reservationId);
-        if (reservation) {
-          total = reservation.precio * cantidad; // Modifica quantity a cantidad
-        } else {
-          return res.status(404).send('Reserva no encontrada');
-        }
-      } else if (serviceId) {
-        const service = await Service.findByPk(serviceId);
-        if (service) {
-          total = service.precio * cantidad; // Modifica quantity a cantidad
-        } else {
-          return res.status(404).send('Servicio no encontrado');
-        }
       } else {
         return res.status(400).send('Por favor, proporciona datos válidos para agregar al carrito.');
       }
@@ -43,11 +29,8 @@ exports.addToCart = async (req, res) => {
       const cartItem = await Cart.create({
         userId,
         productId,
-        reservationId,
-        serviceId,
-        cantidad: cantidad, // Modifica cantidad a cantidad
-        precio: 0, // Esto se calculará en el hook 'beforeCreate'
-        total: total
+        cantidad: cantidad, 
+        precio: precio, 
       });
 
       return res.status(201).send('Elemento agregado al carrito correctamente');
@@ -68,23 +51,13 @@ exports.viewCart = async (req, res) => {
 
     const cartItems = await Cart.findAll({
       where: { userId },
-      attributes: ['productId', 'reservationId', 'serviceId', 'cantidad'],
+      attributes: ['productId','cantidad'],
       include: [
         {
           model: Product,
           as: 'product',
           attributes: ['nombre_producto', 'precio'],
-        },
-        {
-          model: Reservation,
-          as: 'reservation',
-          attributes: ['tipo_reserva', 'precio'],
-        },
-        {
-          model: Service,
-          as: 'service',
-          attributes: ['servicio', 'precio'],
-        },
+        }
       ],
     });
 
@@ -94,10 +67,6 @@ exports.viewCart = async (req, res) => {
 
       if (item.product) {
         precio = item.product.precio;
-      } else if (item.reservation) {
-        precio = item.reservation.precio;
-      } else if (item.service) {
-        precio = item.service.precio;
       }
 
       total = precio * item.cantidad;
@@ -105,21 +74,11 @@ exports.viewCart = async (req, res) => {
       const formattedItem = {
         cantidad: item.cantidad,
         precio,
-        total,
       };
 
       if (item.product) {
         formattedItem.product = item.product.nombre_producto;
       }
-
-      if (item.reservation) {
-        formattedItem.reservation = item.reservation.tipo_reserva;
-      }
-
-      if (item.service) {
-        formattedItem.service = item.service.servicio;
-      }
-
       return formattedItem;
     });
 
@@ -159,17 +118,7 @@ exports.calculateTotal = async (req, res) => {
           model: Product,
           as: 'product',
           attributes: ['precio'],
-        },
-        {
-          model: Reservation,
-          as: 'reservation',
-          attributes: ['precio'],
-        },
-        {
-          model: Service,
-          as: 'service',
-          attributes: ['precio'],
-        },
+        }
       ],
     });
 
@@ -180,10 +129,6 @@ exports.calculateTotal = async (req, res) => {
 
       if (item.product) {
         precio = item.product.precio;
-      } else if (item.reservation) {
-        precio = item.reservation.precio;
-      } else if (item.service) {
-        precio = item.service.precio;
       }
 
       totalPrice += precio * item.cantidad;
