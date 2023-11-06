@@ -6,7 +6,8 @@ const FacturaDetalle = db.facturadetalle;
 exports.createFacturaFromCartView = async (req, res) => {
     try {
       let cartItems = req.body;
-  
+      console.log(req.body);
+      console.log(cartItems);
       if (!Array.isArray(cartItems)) {
         // Si los datos no son un arreglo, conviértelos a un arreglo de un solo elemento
         cartItems = [cartItems];
