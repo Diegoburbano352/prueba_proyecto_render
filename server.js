@@ -29,7 +29,6 @@ require("./app/routes/pet.routes")(app);
 require("./app/routes/pet_user.routes")(app);
 require("./app/routes/reservation.routes")(app);
 require("./app/routes/room.routes")(app);
-require("./app/routes/services.routes")(app);
 require("./app/routes/employee.routes")(app);
 require("./app/routes/product.routes")(app);
 require("./app/routes/cart.routes")(app);
