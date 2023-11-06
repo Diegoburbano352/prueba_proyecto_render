@@ -134,7 +134,7 @@ exports.calculateTotal = async (req, res) => {
       totalPrice += precio * item.cantidad;
     }
 
-    return res.status(200).send({ totalPrice });
+    return res.status(200).send({ cartItems,totalPrice });
   } catch (error) {
     console.error(error);
     return res.status(500).send('Error interno del servidor');
