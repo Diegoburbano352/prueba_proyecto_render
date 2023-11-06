@@ -11,10 +11,11 @@ exports.createFacturaFromCartView = async (req, res) => {
         // Si los datos no son un arreglo, conviértelos a un arreglo de un solo elemento
         cartItems = [cartItems];
       }
-  
+      let detalle = '' 
       const facturaItems = cartItems.map(item => {
+        detalle += `\n ${item.product.nombre_producto}--precio:${item.precio}`;
         return {
-          itemName: item.product || item.reservation || item.service,
+          itemName: item.product,
           cantidad: item.cantidad,
           precioUnitario: item.precio,
         };
@@ -27,6 +28,8 @@ exports.createFacturaFromCartView = async (req, res) => {
         fechaEmision: new Date(),
         facturadetalles: facturaItems,
         userId: userId,
+        total: req.body.totalPrice,
+        detalle: detalle, 
       });
   
       return res.status(201).send('Factura creada a partir de los datos del carrito');

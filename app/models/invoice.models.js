@@ -17,13 +17,16 @@ const Factura = sequelize.define('factura', {
         model: 'users',
         key: 'id',
       }
-      }
-  });
-  
-  Factura.associate = (models) => {
-    Factura.hasMany(models.FacturaDetalle);
-  };
-  
+      },
+      total: {
+        type: Sequelize.DECIMAL(10,2),
+        allowNull: true,
+        },
+        detalle: {
+          type: Sequelize.STRING,
+          allowNull: true,
+          }
+  });  
   return Factura;
   
   };
