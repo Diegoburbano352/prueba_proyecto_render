@@ -36,7 +36,7 @@ exports.createFacturaFromCartView = async (req, res) => {
       return res.status(201).send('Factura creada a partir de los datos del carrito');
     } catch (error) {
       console.error(error);
-      return res.status(500).send('Error al crear la factura a partir de los datos del carrito');
+      return res.status(500).send(req.body);
     }
   
     function generateInvoiceNumber() {
