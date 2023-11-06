@@ -1,25 +1,15 @@
 const db = require('../models');
 const Factura = db.factura;
 
-
 // Crear factura a partir de la vista del carrito
 exports.createFacturaFromCartView = async (req, res) => {
     try {
       let cartItems = req.body.cartItems;
       console.log(req.body);
       console.log(cartItems);
-      if (!Array.isArray(cartItems)) {
-        // Si los datos no son un arreglo, conviértelos a un arreglo de un solo elemento
-        cartItems = [cartItems];
-      }
       let detalle = '' 
-      const facturaItems = cartItems.map(item => {
+       cartItems.map(item => {
         detalle += `\n ${item.product.nombre_producto}--precio:${item.precio}`;
-        return {
-          itemName: item.product,
-          cantidad: item.cantidad,
-          precioUnitario: item.precio,
-        };
       });
   
       const userId = req.user.logeado.id;
@@ -27,7 +17,6 @@ exports.createFacturaFromCartView = async (req, res) => {
       const newFactura = await Factura.create({
         numeroFactura: generateInvoiceNumber(),
         fechaEmision: new Date(),
-        facturadetalles: facturaItems,
         userId: userId,
         total: req.body.totalPrice,
         detalle: detalle, 
