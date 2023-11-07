@@ -19,7 +19,7 @@ const signup = async (req, res) => {
       userName,
       email,
       password: await bcrypt.hash(password, 10),
-     rol: "administrador",
+     rol: "usuario",
     };
 
     // Guarda el usuario si todos los campos requeridos están presentes
