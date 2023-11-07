@@ -8,40 +8,54 @@ module.exports = exports;
 
 // Agregar elementos al carrito
 exports.addToCart = async (req, res) => {
+  let transaction;
   try {
-    const { productId,cantidad, precio} = req.body; // Modifica quantity a cantidad
+    const { productId, cantidad } = req.body;
     const userId = req.user.logeado.id;
 
-    if (cantidad && userId) { // Actualiza quantity a cantidad
-      let total = 0;
+    transaction = await db.sequelize.transaction();
 
-      if (productId) {
-        const product = await Product.findByPk(productId);
-        if (product) {
-          total = product.precio * cantidad; // Modifica quantity a cantidad
+    if (cantidad && userId) {
+      const product = await Product.findByPk(productId, { transaction });
+
+      if (product) {
+        if (product.stock >= cantidad) {
+          await Cart.create(
+            {
+              userId,
+              productId,
+              cantidad,
+              precio: product.precio,
+            },
+            { transaction }
+          );
+
+          await Product.update(
+            { stock: product.stock - cantidad },
+            {
+              where: { id: productId },
+              transaction,
+            }
+          );
+
+          await transaction.commit();
+          return res.status(201).send('Elemento agregado al carrito correctamente');
         } else {
-          return res.status(404).send('Producto no encontrado');
+          return res.status(400).send('Cantidad insuficiente en el stock');
         }
       } else {
-        return res.status(400).send('Por favor, proporciona datos válidos para agregar al carrito.');
+        return res.status(404).send('Producto no encontrado');
       }
-
-      const cartItem = await Cart.create({
-        userId,
-        productId,
-        cantidad: cantidad, 
-        precio: precio, 
-      });
-
-      return res.status(201).send('Elemento agregado al carrito correctamente');
     } else {
-      return res.status(400).send('Por favor, proporciona datos válidos para agregar al carrito.');
+      return res.status(400).send('Proporciona datos válidos para agregar al carrito');
     }
   } catch (error) {
     console.error(error);
+    if (transaction) await transaction.rollback();
     return res.status(500).send('Error interno del servidor');
   }
 };
+
 
 
 // Ver el contenido del carrito
