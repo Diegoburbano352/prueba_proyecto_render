@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "https://front-ie15.onrender.com"
 };
 
 
