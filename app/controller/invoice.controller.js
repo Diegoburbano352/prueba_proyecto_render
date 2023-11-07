@@ -9,7 +9,7 @@ exports.createFacturaFromCartView = async (req, res) => {
       console.log(cartItems);
       let detalle = '' 
        cartItems.map(item => {
-        detalle += `\n ${item.product.nombre_producto}--precio:${item.precio}`;
+        detalle += `\n ${item.product.nombre_producto}--precio:${item.precio}---cantidad:${item.cantidad}`;
       });
   
       const userId = req.user.logeado.id;
