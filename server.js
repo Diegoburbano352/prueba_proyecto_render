@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path'); // Agrega esta línea para importar el módulo 'path'
+const path = require('path');
 const userRoutes = require('./app/routes/userRoutes');
 const app = express();
 const db = require('./app/models');
@@ -11,17 +11,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 var corsOptions = {
-    origin: "https://front-ie15.onrender.com"
+  origin: "https://front-ie15.onrender.com"
 };
 
 db.sequelize.sync({ force: false }).then(() => {
-    console.log("La base de datos ha sido reiniciada (force: true)");
+  console.log("La base de datos ha sido reiniciada (force: true)");
 });
 
 app.use('/api/users', userRoutes);
 
 app.get("/", (req, res) => {
-    res.json({ message: "Bienvenido a nuestra página." });
+  res.json({ message: "Bienvenido a nuestra página." });
 });
 
 require("./app/routes/client.routes")(app);
@@ -36,14 +36,18 @@ require("./app/routes/invoice.routes")(app);
 require("./app/routes/client_user.routes")(app);
 require("./app/routes/reservation_user.routes")(app);
 require("./app/routes/user_admin.routes")(app);
-app.use('/api/users', userRoutes);
 
-// Ruta para manejar todas las demás solicitudes y devolver la página principal de React
+// Configuración para manejar las rutas en React
+const root = path.join(__dirname, 'build');
+
+// Middleware para manejar todas las demás solicitudes y devolver la página principal de React
+app.use(express.static(root));
+
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile('index.html', { root });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`El servidor está ejecutándose en el puerto ${PORT}.`);
+  console.log(`El servidor está ejecutándose en el puerto ${PORT}.`);
 });
