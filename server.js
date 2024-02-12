@@ -40,9 +40,10 @@ require("./app/routes/user_admin.routes")(app);
 // Configuración para manejar las rutas en React
 const root = path.join(__dirname, 'build');
 
-// Middleware para manejar todas las demás solicitudes y devolver la página principal de React
+// Middleware para manejar las rutas en React antes de la ruta '*' (Wildcard)
 app.use(express.static(root));
 
+// Ruta para manejar todas las demás solicitudes y devolver la página principal de React
 app.get('*', (req, res) => {
   res.sendFile('index.html', { root });
 });
