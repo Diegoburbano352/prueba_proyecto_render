@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path'); // Agrega esta línea para importar el módulo 'path'
 const userRoutes = require('./app/routes/userRoutes');
 const app = express();
-const db = require('./app/models')
+const db = require('./app/models');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -13,8 +14,7 @@ var corsOptions = {
     origin: "https://front-ie15.onrender.com"
 };
 
-
-db.sequelize.sync({ force: false}).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     console.log("La base de datos ha sido reiniciada (force: true)");
 });
 
@@ -36,8 +36,12 @@ require("./app/routes/invoice.routes")(app);
 require("./app/routes/client_user.routes")(app);
 require("./app/routes/reservation_user.routes")(app);
 require("./app/routes/user_admin.routes")(app);
-app.use('/api/users', userRoutes)
+app.use('/api/users', userRoutes);
 
+// Ruta para manejar todas las demás solicitudes y devolver la página principal de React
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
