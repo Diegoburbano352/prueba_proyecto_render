@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "dpg-ckvbb2jamefc73erfsig-a",
-    USER: "proyecto_final_tgym_user",
-    PASSWORD: "zUa1VjSvnBB5WKuUglFa4Aetbdr2unXV",
-    DB: "proyecto_final_tgym",
+    HOST: "dpg-cn56l4da73kc73d8v960-a",
+    USER: "prueba_qehi_user",
+    PASSWORD: "07BtthpbJ8q5FYHg624UHci6n2xwHWOF",
+    DB: "prueba_qehi",
     dialect: "postgres",
     pool: {
       max: 5,
