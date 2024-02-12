@@ -42,10 +42,11 @@ app.use('/api/users', userRoutes);
 const root = path.join(__dirname, 'build');
 
 // Middleware para manejar las demás solicitudes y devolver la página principal de React
-app.use(express.static(root));
 app.get('*', (req, res) => {
   res.sendFile('index.html', { root });
 });
+
+app.use(express.static(root));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
